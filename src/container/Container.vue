@@ -10,15 +10,28 @@
         </div>
         <div>
           <!-- 我是样例菜单 -->
-          <el-menu router class="el-menu-vertical-demo" :collapse="isCollapse" :default-active="$route.path">
-            <template v-for="route in $router.options.routes">
-              <template v-for="item in route.children">
-                <el-menu-item :key="route.path + '/' + item.path" :index="item.path">
-                  <i class="el-icon-menu"></i>
-                  <span slot="title">{{ item.name }}</span>
-                </el-menu-item>
-              </template>
-            </template>
+          <el-menu
+            router
+            class="el-menu-vertical-demo"
+            :collapse="isCollapse"
+            :default-active="$route.path"
+          >
+            <el-menu-item index="/admin/home">
+              <i class="el-icon-menu"></i>
+              <span slot="title">管理首页</span>
+            </el-menu-item>
+            <el-menu-item index="/admin/news">
+              <i class="el-icon-menu"></i>
+              <span slot="title">新闻列表</span>
+            </el-menu-item>
+            <el-menu-item index="/admin/activities">
+              <i class="el-icon-menu"></i>
+              <span slot="title">活动列表</span>
+            </el-menu-item>
+            <el-menu-item index="/admin/application">
+              <i class="el-icon-menu"></i>
+              <span slot="title">申请列表</span>
+            </el-menu-item>
           </el-menu>
         </div>
       </el-aside>
@@ -57,7 +70,6 @@ export default {
   name: "Container",
   data() {
     return {
-      
       username: "kadima",
       isCollapse: false
     };
@@ -75,9 +87,7 @@ export default {
         .catch(() => {});
     }
   },
-  mounted() {
-    
-  }
+  mounted() {}
 };
 </script>
 

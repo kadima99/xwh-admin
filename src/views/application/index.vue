@@ -1,103 +1,114 @@
 <template>
-      <el-container>
-        <el-header>
-          <el-row :inline="true">
-            <el-select v-model="search" placeholder="申请部门">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-row>
-        </el-header>
-        <el-main>
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column type="expand">
-              <template slot-scope="props">
-                <el-form label-position="left" inline class="demo-table-expand">
-                  <el-form-item label="申请人名字">
-                    <span>{{ props.row.a_name }}</span>
-                  </el-form-item>
-                  <el-form-item label="申请人部门">
-                    <span>{{ props.row.a_department }}</span>
-                  </el-form-item>
-                  <el-form-item label="任务描述">
-                    <span>{{ props.row.a_describe }}</span>
-                  </el-form-item>
-                  <el-form-item label="任务地点">
-                    <span>{{ props.row.a_place }}</span>
-                  </el-form-item>
-                  <el-form-item label="任务日期">
-                    <span>{{ props.row.a_targetDate }}</span>
-                  </el-form-item>
-                  <el-form-item label="申请日期">
-                    <span>{{ props.row.a_date }}</span>
-                  </el-form-item>
-                  <el-form-item label="申请部门">
-                    <span>{{ props.row.n_department }}</span>
-                  </el-form-item>
-                </el-form>
-              </template>
-            </el-table-column>
-            <el-table-column label="申请人" prop="a_name"></el-table-column>
-            <el-table-column label="任务日期" prop="a_targetDate" sortable></el-table-column>
-            <el-table-column label="申请日期" prop="a_date" sortable></el-table-column>
-            <el-table-column label="状态">
-              <template slot-scope="scope">
-                <el-tag type="success" v-if="scope.row.state===1">已通过</el-tag>
-                <el-tag type="warning" v-if="scope.row.state===0">待审核</el-tag>
-                <el-tag type="danger" v-if="scope.row.state===-1">未通过</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  type="primary"
-                  icon="el-icon-edit"
-                  circle
-                  @click="showEdit(scope.row,scope.$index)"
-                ></el-button>
-                <el-button type="success" icon="el-icon-check" circle @click="accept(scope.row.id)"></el-button>
-                <el-button type="danger" icon="el-icon-close" circle @click="refuse(scope.row.id)"></el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-main>
-        <el-dialog title="添加新闻" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
-          <el-form :model="editForm" label-width="100px" ref="editForm">
-            <el-form-item label="申请人名字">
-              <el-input v-model="editForm.a_name" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="申请人部门">
-              <el-input v-model="editForm.a_department" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="任务描述">
-              <el-input v-model="editForm.a_describe" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="任务地点">
-              <el-input v-model="editForm.a_place" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="任务日期">
-                <el-date-picker
-                  type="datetime"
-                  placeholder="选择日期"
-                  v-model="editForm.a_targetDate"
-                  value-format="yyyy-MM-dd HH:mm"
-                  style="width: 100%;"
-                ></el-date-picker>
-            </el-form-item>
-            <el-form-item label="申请部门">
-              <el-input v-model="editForm.n_department" auto-complete="off"></el-input>
-            </el-form-item>
-          </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="editDo">确 定</el-button>
-          </div>
-        </el-dialog>
-      </el-container>
+  <el-container>
+    <el-header>
+      <el-row :inline="true">
+        <el-select v-model="search" placeholder="申请部门">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-row>
+    </el-header>
+    <el-main>
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="申请人名字">
+                <span>{{ props.row.a_name }}</span>
+              </el-form-item>
+              <el-form-item label="申请人部门">
+                <span>{{ props.row.a_department }}</span>
+              </el-form-item>
+              <el-form-item label="任务描述">
+                <span>{{ props.row.a_describe }}</span>
+              </el-form-item>
+              <el-form-item label="任务地点">
+                <span>{{ props.row.a_place }}</span>
+              </el-form-item>
+              <el-form-item label="任务日期">
+                <span>{{ props.row.a_targetDate }}</span>
+              </el-form-item>
+              <el-form-item label="申请日期">
+                <span>{{ props.row.a_date }}</span>
+              </el-form-item>
+              <el-form-item label="申请部门">
+                <span>{{ props.row.n_department }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <el-table-column label="申请人" prop="a_name"></el-table-column>
+        <el-table-column label="任务日期" prop="a_targetDate" sortable></el-table-column>
+        <el-table-column label="申请日期" prop="a_date" sortable></el-table-column>
+        <el-table-column label="状态">
+          <template slot-scope="scope">
+            <el-tag type="success" v-if="scope.row.state===1">已通过</el-tag>
+            <el-tag type="warning" v-if="scope.row.state===0">待审核</el-tag>
+            <el-tag type="danger" v-if="scope.row.state===-1">未通过</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              circle
+              @click="showEdit(scope.row,scope.$index)"
+            ></el-button>
+            <el-button type="success" icon="el-icon-check" circle @click="accept(scope.row.id)"></el-button>
+            <el-button type="danger" icon="el-icon-close" circle @click="refuse(scope.row.id)"></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 分页 -->
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage"
+          :page-size=sizePage
+          layout="total, prev, pager, next"
+          :total=totalPage
+        ></el-pagination>
+      </div>
+    </el-main>
+    <el-dialog title="添加新闻" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
+      <el-form :model="editForm" label-width="100px" ref="editForm">
+        <el-form-item label="申请人名字">
+          <el-input v-model="editForm.a_name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="申请人部门">
+          <el-input v-model="editForm.a_department" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="任务描述">
+          <el-input v-model="editForm.a_describe" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="任务地点">
+          <el-input v-model="editForm.a_place" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="任务日期">
+          <el-date-picker
+            type="datetime"
+            placeholder="选择日期"
+            v-model="editForm.a_targetDate"
+            value-format="yyyy-MM-dd HH:mm"
+            style="width: 100%;"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="申请部门">
+          <el-input v-model="editForm.n_department" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editDo">确 定</el-button>
+      </div>
+    </el-dialog>
+  </el-container>
 </template>
   
 <script>
@@ -139,6 +150,9 @@ export default {
       ],
       search: "",
       dialogFormVisible: false,
+      currentPage:1,
+      totalPage:1000,
+      sizePage:100,
       tableData: [
         {
           id: 1,
@@ -224,13 +238,18 @@ export default {
     },
     editDo() {
       this.$notify({
-            title: "成功",
-            message: "修改成功",
-            type: "success"
-          });
+        title: "成功",
+        message: "修改成功",
+        type: "success"
+      });
       this.dialogFormVisible = false;
       console.log(this.dialogFormVisible);
-      
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   }
 };
@@ -255,5 +274,9 @@ export default {
 
 .el-table .success-row {
   background: #f0f9eb;
+}
+.block {
+  text-align: center;
+  margin-top: 20px;
 }
 </style>

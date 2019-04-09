@@ -37,6 +37,16 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage"
+          :page-size=sizePage
+          layout="total, prev, pager, next"
+          :total=totalPage
+        ></el-pagination>
+      </div>
     </el-main>
     <el-dialog title="修改" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
       <el-form :model="editForm" label-width="100px" ref="editForm">
@@ -138,6 +148,9 @@ export default {
       search: "",
       dialogFormVisible: false,
       addDialogFormVisible: false,
+      currentPage:1,
+      totalPage:1000,
+      sizePage:100,
       tableData: [
         {
           id: 1,
@@ -230,6 +243,12 @@ export default {
         type: "success"
       });
       this.addDialogFormVisible = false;
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   }
 };
@@ -254,5 +273,9 @@ export default {
 
 .el-table .success-row {
   background: #f0f9eb;
+}
+.block {
+  text-align: center;
+  margin-top: 20px;
 }
 </style>
