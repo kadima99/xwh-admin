@@ -8,6 +8,9 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="作者">
+                <span>{{ props.row.author }}</span>
+              </el-form-item>
               <el-form-item label="活动描述">
                 <span>{{ props.row.describe }}</span>
               </el-form-item>
@@ -53,6 +56,9 @@
         <el-form-item label="活动名称">
           <el-input v-model="editForm.name" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="作者">
+          <el-input v-model="editForm.author" auto-complete="off"></el-input>
+        </el-form-item>
         <el-form-item label="开始日期">
           <el-date-picker
             type="datetime"
@@ -89,6 +95,9 @@
       <el-form :model="addForm" label-width="100px" ref="addForm">
         <el-form-item label="活动名称">
           <el-input v-model="addForm.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="作者">
+          <el-input v-model="addForm.author" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="开始日期">
           <el-date-picker
@@ -135,6 +144,7 @@ export default {
         startDate: "",
         endDate: "",
         describe: "",
+        author: "",
         state: ""
       },
       addForm: {
@@ -143,6 +153,7 @@ export default {
         startDate: "",
         endDate: "",
         describe: "",
+        author: "",
         state: ""
       },
       search: "",
@@ -158,6 +169,7 @@ export default {
           startDate: "2019-4-1",
           endDate: "2019-4-2",
           describe: "一起上天",
+          author: "kadima",
           state: 1
         },
         {
@@ -166,6 +178,7 @@ export default {
           startDate: "2019-4-1",
           endDate: "2019-4-2",
           describe: "一起上天",
+          author: "kadima",
           state: 0
         },
         {
@@ -174,6 +187,7 @@ export default {
           startDate: "2019-4-1",
           endDate: "2019-4-2",
           describe: "一起上天",
+          author: "kadima",
           state: -1
         },
         {
@@ -182,6 +196,7 @@ export default {
           startDate: "2019-4-1",
           endDate: "2019-4-2",
           describe: "一起上天",
+          author: "kadima",
           state: 1
         }
       ]
@@ -191,24 +206,40 @@ export default {
     accept: function(id) {
       this.$confirm("确认发布?", "提示", {})
         .then(() => {
-          console.log(id);
-          this.$notify({
-            title: "成功",
-            message: "活动成功发布",
-            type: "success"
-          });
+          if (this.tableData[id - 1].state == 1)
+            this.$notify({
+              title: "失败",
+              message: "活动已经发布",
+              type: "warning"
+            });
+          else {
+            this.tableData[id - 1].state = 1;
+            this.$notify({
+              title: "成功",
+              message: "活动成功发布",
+              type: "success"
+            });
+          }
         })
         .catch(() => {});
     },
     refuse: function(id) {
       this.$confirm("确认下架?", "提示", {})
         .then(() => {
-          console.log(id);
-          this.$notify({
-            title: "可惜",
-            message: "活动已经下架",
-            type: "warning"
-          });
+          if (this.tableData[id - 1].state == -1)
+            this.$notify({
+              title: "失败",
+              message: "活动已经下架",
+              type: "warning"
+            });
+          else {
+            this.tableData[id - 1].state = -1;
+            this.$notify({
+              title: "成功",
+              message: "活动成功下架",
+              type: "success"
+            });
+          }
         })
         .catch(() => {});
     },

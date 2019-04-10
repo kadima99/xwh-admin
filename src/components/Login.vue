@@ -37,7 +37,7 @@
               </el-col>
             </el-row>
             <el-row class="form-item">
-              <el-button type="primary" class="submit-btn" size="small" @click="submitBtn">
+              <el-button type="primary" class="submit-btn" size="small" @click="login">
                 登 录
               </el-button>
             </el-row>
@@ -66,16 +66,13 @@ export default {
   },
   created() {},
   methods: {
-    submitBtn() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          this.$message({
-            message: '登录成功',
-            type: 'success',
-          });
-        }
-      });
+    submitBtn:function() {
+      console.log(this.username)
+     this.$router.push("/admin");
     },
+    login(){
+      this.$router.push("/admin")
+    }
   },
 };
 </script>

@@ -23,6 +23,9 @@
               <el-form-item label="申请人部门">
                 <span>{{ props.row.a_department }}</span>
               </el-form-item>
+              <el-form-item label="联系方式">
+                <span>{{ props.row.a_phone }}</span>
+              </el-form-item>
               <el-form-item label="任务描述">
                 <span>{{ props.row.a_describe }}</span>
               </el-form-item>
@@ -70,19 +73,22 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page.sync="currentPage"
-          :page-size=sizePage
+          :page-size="sizePage"
           layout="total, prev, pager, next"
-          :total=totalPage
+          :total="totalPage"
         ></el-pagination>
       </div>
     </el-main>
-    <el-dialog title="添加新闻" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
+    <el-dialog title="修改" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
       <el-form :model="editForm" label-width="100px" ref="editForm">
         <el-form-item label="申请人名字">
           <el-input v-model="editForm.a_name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="申请人部门">
           <el-input v-model="editForm.a_department" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式">
+          <el-input v-model="editForm.a_phone" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="任务描述">
           <el-input v-model="editForm.a_describe" auto-complete="off"></el-input>
@@ -124,6 +130,7 @@ export default {
         a_targetDate: "",
         a_date: "",
         n_department: "",
+        a_phone: "",
         state: ""
       },
       options: [
@@ -150,15 +157,16 @@ export default {
       ],
       search: "",
       dialogFormVisible: false,
-      currentPage:1,
-      totalPage:1000,
-      sizePage:100,
+      currentPage: 1,
+      totalPage: 1000,
+      sizePage: 100,
       tableData: [
         {
           id: 1,
           a_name: "周启铭",
           a_department: "网络部",
           a_describe: "制作it文化节视频",
+          a_phone: "18476318110",
           a_place: "无",
           a_targetDate: "2019-4-1 16:30",
           a_date: "2019-3-8",
@@ -170,6 +178,7 @@ export default {
           a_name: "周启铭",
           a_department: "网络部",
           a_describe: "制作it文化节视频",
+          a_phone: "18476318110",
           a_place: "无",
           a_targetDate: "2019-3-1 16:30",
           a_date: "2019-3-8",
@@ -181,6 +190,7 @@ export default {
           a_name: "周启铭",
           a_department: "网络部",
           a_describe: "制作it文化节视频",
+          a_phone: "18476318110",
           a_place: "无",
           a_targetDate: "2019-5-1 16:30",
           a_date: "2019-3-8",
@@ -192,6 +202,7 @@ export default {
           a_name: "周启铭",
           a_department: "网络部",
           a_describe: "制作it文化节视频",
+          a_phone: "18476318110",
           a_place: "无",
           a_targetDate: "2019-5-1 16:30",
           a_date: "2019-3-8",
@@ -206,23 +217,42 @@ export default {
       this.$confirm("确认通过?", "提示", {})
         .then(() => {
           console.log(id);
-          this.$notify({
-            title: "成功",
-            message: "申请成功通过",
-            type: "success"
-          });
+          if (this.tableData[id - 1].state == 1)
+            this.$notify({
+              title: "失败",
+              message: "申请已经通过",
+              type: "warning"
+            });
+          else {
+            this.tableData[id - 1].state = 1;
+            this.$notify({
+              title: "成功",
+              message: "申请成功通过",
+              type: "success"
+            })
+          }
         })
         .catch(() => {});
     },
     refuse: function(id) {
       this.$confirm("确认拒绝?", "提示", {})
         .then(() => {
-          console.log(id);
-          this.$notify({
-            title: "残忍",
-            message: "申请没有通过",
-            type: "warning"
-          });
+         console.log(id);
+          if (this.tableData[id - 1].state == -1)
+            this.$notify({
+              title: "失败",
+              message: "申请已经拒绝",
+              type: "warning"
+            });
+          else {
+            this.tableData[id - 1].state = -1;
+            this.$notify({
+              title: "成功",
+              message: "申请成功拒绝",
+              type: "success"
+            })
+          }
+          
         })
         .catch(() => {});
     },
@@ -250,7 +280,8 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-    }
+    },
+    get() {}
   }
 };
 </script>

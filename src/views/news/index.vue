@@ -6,7 +6,8 @@
     <el-main>
       <el-table :data="tableData" style="width: 100%">
         <el-table-column label="新闻标题" prop="title"></el-table-column>
-        <el-table-column label="发布日期" prop="date" sortable></el-table-column>
+        <el-table-column label="发布日期" prop="date"></el-table-column>
+        <el-table-column label="作者" prop="author"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
             <el-tag type="success" v-if="scope.row.state===1">已发布</el-tag>
@@ -32,9 +33,9 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page.sync="currentPage"
-          :page-size=sizePage
+          :page-size="sizePage"
           layout="total, prev, pager, next"
-          :total=totalPage
+          :total="totalPage"
         ></el-pagination>
       </div>
     </el-main>
@@ -42,6 +43,9 @@
       <el-form :model="editForm" label-width="100px" ref="editForm">
         <el-form-item label="新闻标题">
           <el-input v-model="editForm.title" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="作者">
+          <el-input v-model="editForm.author" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="发布日期">
           <el-date-picker
@@ -70,6 +74,9 @@
       <el-form :model="addForm" label-width="100px" ref="addForm">
         <el-form-item label="新闻标题">
           <el-input v-model="addForm.title" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="作者">
+          <el-input v-model="addForm.author" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="发布日期">
           <el-date-picker
@@ -104,6 +111,7 @@ export default {
       editForm: {
         id: "",
         title: "",
+        author: "",
         content: "",
         date: "",
         state: ""
@@ -111,6 +119,7 @@ export default {
       addForm: {
         id: "",
         title: "",
+        author: "",
         content: "",
         date: "",
         state: ""
@@ -118,13 +127,14 @@ export default {
       search: "",
       dialogFormVisible: false,
       addDialogFormVisible: false,
-      currentPage:1,
-      totalPage:1000,
-      sizePage:100,
+      currentPage: 1,
+      totalPage: 1000,
+      sizePage: 100,
       tableData: [
         {
           id: 1,
           title: "宣传网站首发新闻",
+          author: "陈冠文",
           content:
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           date: "2019-4-1 16:30",
@@ -133,6 +143,7 @@ export default {
         {
           id: 2,
           title: "宣传网站首发新闻",
+          author: "陈冠文",
           content:
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           date: "2019-4-1 16:30",
@@ -141,6 +152,7 @@ export default {
         {
           id: 3,
           title: "宣传网站首发新闻",
+          author: "陈冠文",
           content:
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           date: "2019-4-1 16:30",
@@ -149,6 +161,7 @@ export default {
         {
           id: 4,
           title: "宣传网站首发新闻",
+          author: "陈冠文",
           content:
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           date: "2019-4-1 16:30",
@@ -161,24 +174,40 @@ export default {
     accept: function(id) {
       this.$confirm("确认发布?", "提示", {})
         .then(() => {
-          console.log(id);
-          this.$notify({
-            title: "成功",
-            message: "新闻成功发布",
-            type: "success"
-          });
+          if (this.tableData[id - 1].state == 1)
+            this.$notify({
+              title: "失败",
+              message: "新闻已经发布",
+              type: "warning"
+            });
+          else {
+            this.tableData[id - 1].state = 1;
+            this.$notify({
+              title: "成功",
+              message: "新闻成功发布",
+              type: "success"
+            });
+          }
         })
         .catch(() => {});
     },
     refuse: function(id) {
       this.$confirm("确认下架?", "提示", {})
         .then(() => {
-          console.log(id);
-          this.$notify({
-            title: "可惜",
-            message: "新闻已经下架",
-            type: "warning"
-          });
+          if (this.tableData[id - 1].state == -1)
+            this.$notify({
+              title: "失败",
+              message: "新闻已经下架",
+              type: "warning"
+            });
+          else {
+            this.tableData[id - 1].state = -1;
+            this.$notify({
+              title: "成功",
+              message: "新闻成功下架",
+              type: "success"
+            });
+          }
         })
         .catch(() => {});
     },

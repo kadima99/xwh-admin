@@ -6,7 +6,7 @@
         :class="isCollapse ? 'app-side-collapsed' : 'app-side-expanded'"
       >
         <div class="app-side-logo">
-          <img src="@/assets/logo.png" :width="isCollapse ? '60' : '60'" height="60">
+          <!-- <img src="@/assets/logo.png" :width="isCollapse ? '60' : '60'" height="60"> -->
         </div>
         <div>
           <!-- 我是样例菜单 -->

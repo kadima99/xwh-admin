@@ -40,14 +40,14 @@
       <el-input type="textarea" v-model="form.a_describe"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">提交申请</el-button>
-      <el-button>取消</el-button>
+      <el-button type="primary" @click="onSubmit(form)">提交申请</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
 export default {
+  
   data() {
     return {
       options: [
@@ -84,7 +84,7 @@ export default {
     };
   },
   methods : {
-      onSubmit(){
+      onSubmit(form){
       this.$confirm("确认申请?", "提示", {})
         .then(() => {
           console.log(this.form);

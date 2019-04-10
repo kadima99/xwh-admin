@@ -7,7 +7,7 @@
             <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router="true">
               <el-menu-item index="/login">管理登陆</el-menu-item>
               <el-menu-item index="/application">任务申请</el-menu-item>
-              <el-menu-item index="/">首页</el-menu-item>
+              <el-menu-item index="/home">首页</el-menu-item>
             </el-menu>
           </div>
         </el-col>

@@ -7,11 +7,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss'
 import echarts from 'echarts'
-
+import axios from "axios"
+import applicationApi from './api/apply.js'
 
 Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.prototype.axios = axios
+Vue.prototype.$applicationApi = applicationApi
 
 /* eslint-disable no-new */
 new Vue({

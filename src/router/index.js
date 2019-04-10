@@ -35,13 +35,13 @@ export default new Router({
       children:[
        {path:'/home',name:'1',component: IndexHome,},
        {path:'/application',name:'2',component: IndexApplication,},
+       {
+        path:'/login',
+        name:'登陆',
+        component:Login,
+      }
       ]
     },
-    {
-      path:'/login',
-      name:'登陆',
-      component:Login,
-    }
   ],
   linkActiveClass: 'mui-active'
   
